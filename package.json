@@ -1,35 +1,35 @@
 {
-  "name": "print-tools-js",
-  "version": "1.0.0",
-  "description": "Package: print_tools_js",
-  "main": "./js/index.js",
-  "files": [
-    "/js"
-  ],
-  "scripts": {
-    "test": "./node_modules/.bin/mocha js/tests",
-    "compile": "grunt sync"
-  },
-  "author": "Edmund Pfeil {edmundpf@buffalo.edu}",
-  "homepage": "https://github.com/edmundpf/print_tools_js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/edmundpf/print_tools_js"
-  },
-  "license": "MIT",
-  "dependencies": {
-    "boxen": "^4.1.0",
-    "chalk": "^2.4.2",
-    "dateformat": "^3.0.3",
-    "node-emoji": "^1.10.0"
-  },
-  "devDependencies": {
-    "chai": "*",
-    "grunt": "*",
-    "grunt-contrib-clean": "*",
-    "grunt-contrib-coffee": "*",
-    "grunt-contrib-copy": "*",
-    "grunt-contrib-watch": "*",
-    "mocha": "*"
-  }
+	"name": "print-tools-js",
+	"version": "1.0.1",
+	"description": "Package: print_tools_js",
+	"main": "./js/index.js",
+	"files": [
+		"/js"
+	],
+	"scripts": {
+		"test": "./node_modules/.bin/mocha js/tests",
+		"compile": "grunt sync"
+	},
+	"author": "Edmund Pfeil {edmundpf@buffalo.edu}",
+	"homepage": "https://github.com/edmundpf/print_tools_js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/edmundpf/print_tools_js"
+	},
+	"license": "MIT",
+	"dependencies": {
+		"boxen": "^4.1.0",
+		"chalk": "^2.4.2",
+		"dateformat": "^3.0.3",
+		"node-emoji": "^1.10.0"
+	},
+	"devDependencies": {
+		"chai": "*",
+		"grunt": "*",
+		"grunt-contrib-clean": "*",
+		"grunt-contrib-coffee": "*",
+		"grunt-contrib-copy": "*",
+		"grunt-contrib-watch": "*",
+		"mocha": "*"
+	}
 }
