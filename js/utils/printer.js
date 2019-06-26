@@ -131,7 +131,7 @@ Print = {
     if (args.titleDesc == null) {
       boxLines.push(title);
     } else {
-      boxLines.push(chalk`{${theme} ${title}}: ${args.titleDesc}`);
+      boxLines.push(chalk`{${args.theme} ${title}}: ${args.titleDesc}`);
     }
     if (args.tagLine != null) {
       boxLines.push(`${chalk.gray(args.tagLine)}\n`);

@@ -82,7 +82,7 @@ Print =
 		if !args.titleDesc?
 			boxLines.push(title)
 		else
-			boxLines.push(chalk"{#{theme} #{title}}: #{args.titleDesc}")
+			boxLines.push(chalk"{#{args.theme} #{title}}: #{args.titleDesc}")
 		if args.tagLine?
 			boxLines.push("#{chalk.gray(args.tagLine)}\n")
 		if args.author? and args.email?
