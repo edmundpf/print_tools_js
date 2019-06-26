@@ -1,6 +1,6 @@
 {
 	"name": "print-tools-js",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "Package: print_tools_js",
 	"main": "./js/index.js",
 	"files": [
@@ -16,6 +16,18 @@
 		"type": "git",
 		"url": "https://github.com/edmundpf/print_tools_js"
 	},
+	"keywords": [
+		"print",
+		"log",
+		"console",
+		"consola",
+		"boxen",
+		"chalk",
+		"ansi",
+		"print-tools",
+		"print_tools",
+		"print_tools_js"
+	],
 	"license": "MIT",
 	"dependencies": {
 		"boxen": "^4.1.0",
