@@ -1,6 +1,7 @@
 # Print Tools Js
 [![Build Status](https://travis-ci.org/edmundpf/print_tools_js.svg?branch=master)](https://travis-ci.org/edmundpf/print_tools_js)
 [![npm version](https://badge.fury.io/js/print-tools-js.svg)](https://badge.fury.io/js/print-tools-js)
+<img src="demo.jpg?raw=true"></img>
 > Easy-to-use console logging presets and formatting. ✏️😋
 ## Install
 * `npm i -S print-tools-js`
@@ -84,5 +85,4 @@ p.success('Test passed!')
 			* *author* (string) - Author name
 			* *email* (string) - Author email
 			* *ret* (Boolean = false) - if true returns formatted string, returns true after printing otherwise
-		
 		
