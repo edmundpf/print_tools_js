@@ -1,4 +1,4 @@
-var COLS, assert, p, should;
+var COLS, assert, escRepl, p, presetTest, should, styleTest;
 
 p = require('../utils/printer');
 
@@ -8,257 +8,116 @@ should = require('chai').should();
 
 COLS = process.stdout.columns;
 
-//: Test Success Method
-describe('success()', function() {
+//: Replace ANSI Escape Characters
+escRepl = function(text) {
+  return text.replace(/\u001b\[.*?m/g, '');
+};
+
+//: Test Preset Methods
+presetTest = function(func, presetChar, offset = 0) {
   it('Return boolean', function() {
-    return p.success('Test').should.be.a('boolean');
+    return func.bind(p)('Test').should.be.a('boolean');
   });
   it('Return string', function() {
-    return p.success('Test', {
+    return func.bind(p)('Test', {
       ret: true
     }).should.be.a('string');
   });
   it('Proper length', function() {
-    return p.success('Test', {
+    return escRepl(func.bind(p)('Test', {
       ret: true
-    }).length.should.equal(COLS - 1);
+    })).length.should.equal(COLS - offset);
   });
   it('Proper length with args', function() {
-    return p.success('Test', {
+    return escRepl(func.bind(p)('Test', {
       ret: true,
       dec: 'arrow',
       indent: 2
-    }).length.should.equal(COLS - 1);
+    })).length.should.equal(COLS - offset);
   });
   it('Proper length without log', function() {
-    return p.success('Test', {
+    return escRepl(func.bind(p)('Test', {
       ret: true,
       log: false,
       dec: 'arrow',
       indent: 2
-    }).length.should.equal(COLS - 1);
+    })).length.should.equal(COLS - offset);
   });
   return it('Contains preset characters', function() {
-    return assert.equal(p.success('Test', {
+    return assert.equal(func.bind(p)('Test', {
       ret: true
-    }).indexOf('✔'), 0);
+    }).indexOf(presetChar), 0);
   });
+};
+
+//: Test Syle Methods
+styleTest = function(func, styleChar) {
+  it('Return boolean', function() {
+    return func.bind(p)('Test').should.be.a('boolean');
+  });
+  it('Return string', function() {
+    return func.bind(p)('Test', {
+      ret: true
+    }).should.be.a('string');
+  });
+  it('Proper length', function() {
+    return escRepl(func.bind(p)('Test', {
+      ret: true
+    })).length.should.equal(COLS);
+  });
+  it('Proper length with args', function() {
+    return escRepl(func.bind(p)('Test', {
+      ret: true,
+      indent: 2
+    })).length.should.equal(COLS);
+  });
+  it('Proper length without log', function() {
+    return escRepl(func.bind(p)('Test', {
+      ret: true,
+      log: false,
+      indent: 2
+    })).length.should.equal(`${styleChar}         Test`.length);
+  });
+  return it('Contains preset characters', function() {
+    return assert.equal(func.bind(p)('Test', {
+      ret: true
+    }).indexOf(styleChar), 0);
+  });
+};
+
+//: Test Success Method
+describe('success()', function() {
+  return presetTest(p.success, '✔', 1);
 });
 
 //: Test Info Method
 describe('info()', function() {
-  it('Return boolean', function() {
-    return p.info('Test').should.be.a('boolean');
-  });
-  it('Return string', function() {
-    return p.info('Test', {
-      ret: true
-    }).should.be.a('string');
-  });
-  it('Proper length', function() {
-    return p.info('Test', {
-      ret: true
-    }).length.should.equal(COLS);
-  });
-  it('Proper length with args', function() {
-    return p.info('Test', {
-      ret: true,
-      dec: 'arrow',
-      indent: 2
-    }).length.should.equal(COLS);
-  });
-  it('Proper length without log', function() {
-    return p.info('Test', {
-      ret: true,
-      log: false,
-      dec: 'arrow',
-      indent: 2
-    }).length.should.equal(COLS);
-  });
-  return it('Contains preset characters', function() {
-    return assert.equal(p.info('Test', {
-      ret: true
-    }).indexOf('ℹ'), 0);
-  });
+  return presetTest(p.info, 'ℹ', 0);
 });
 
 //: Test Warning Method
 describe('warning()', function() {
-  it('Return boolean', function() {
-    return p.warning('Test').should.be.a('boolean');
-  });
-  it('Return string', function() {
-    return p.warning('Test', {
-      ret: true
-    }).should.be.a('string');
-  });
-  it('Proper length', function() {
-    return p.warning('Test', {
-      ret: true
-    }).replace(/\u001b\[.*?m/g, '').length.should.equal(COLS - 1);
-  });
-  it('Proper length with args', function() {
-    return p.warning('Test', {
-      ret: true,
-      dec: 'arrow',
-      indent: 2
-    }).replace(/\u001b\[.*?m/g, '').length.should.equal(COLS - 1);
-  });
-  it('Proper length without log', function() {
-    return p.warning('Test', {
-      ret: true,
-      log: false,
-      dec: 'arrow',
-      indent: 2
-    }).replace(/\u001b\[.*?m/g, '').length.should.equal(COLS - 1);
-  });
-  return it('Contains preset characters', function() {
-    return assert.equal(p.warning('Test', {
-      ret: true
-    }).indexOf('⚠'), 0);
-  });
+  return presetTest(p.warning, '⚠', 1);
 });
 
 //: Test Error Method
 describe('error()', function() {
-  it('Return boolean', function() {
-    return p.error('Test').should.be.a('boolean');
-  });
-  it('Return string', function() {
-    return p.error('Test', {
-      ret: true
-    }).should.be.a('string');
-  });
-  it('Proper length', function() {
-    return p.error('Test', {
-      ret: true
-    }).replace(/\u001b\[.*?m/g, '').length.should.equal(COLS);
-  });
-  it('Proper length with args', function() {
-    return p.error('Test', {
-      ret: true,
-      dec: 'arrow',
-      indent: 2
-    }).replace(/\u001b\[.*?m/g, '').length.should.equal(COLS);
-  });
-  it('Proper length without log', function() {
-    return p.error('Test', {
-      ret: true,
-      log: false,
-      dec: 'arrow',
-      indent: 2
-    }).replace(/\u001b\[.*?m/g, '').length.should.equal(COLS);
-  });
-  return it('Contains preset characters', function() {
-    return assert.equal(p.error('Test', {
-      ret: true
-    }).indexOf('💀'), 0);
-  });
+  return presetTest(p.error, '💀', 0);
 });
 
 //: Test Arrow Method
 describe('arrow()', function() {
-  it('Return boolean', function() {
-    return p.arrow('Test').should.be.a('boolean');
-  });
-  it('Return string', function() {
-    return p.arrow('Test', {
-      ret: true
-    }).should.be.a('string');
-  });
-  it('Proper length', function() {
-    return p.arrow('Test', {
-      ret: true
-    }).length.should.equal(COLS);
-  });
-  it('Proper length with args', function() {
-    return p.arrow('Test', {
-      ret: true,
-      indent: 2
-    }).length.should.equal(COLS);
-  });
-  it('Proper length without log', function() {
-    return p.arrow('Test', {
-      ret: true,
-      log: false,
-      indent: 2
-    }).length.should.equal('-->         Test'.length);
-  });
-  return it('Contains preset characters', function() {
-    return assert.equal(p.arrow('Test', {
-      ret: true
-    }).indexOf('-->'), 0);
-  });
+  return styleTest(p.arrow, '-->');
 });
 
 //: Test Chevron Method
 describe('chevron()', function() {
-  it('Return boolean', function() {
-    return p.chevron('Test').should.be.a('boolean');
-  });
-  it('Return string', function() {
-    return p.chevron('Test', {
-      ret: true
-    }).should.be.a('string');
-  });
-  it('Proper length', function() {
-    return p.chevron('Test', {
-      ret: true
-    }).length.should.equal(COLS);
-  });
-  it('Proper length with args', function() {
-    return p.chevron('Test', {
-      ret: true,
-      indent: 2
-    }).length.should.equal(COLS);
-  });
-  it('Proper length without log', function() {
-    return p.chevron('Test', {
-      ret: true,
-      log: false,
-      indent: 2
-    }).length.should.equal('>>>         Test'.length);
-  });
-  return it('Contains preset characters', function() {
-    return assert.equal(p.chevron('Test', {
-      ret: true
-    }).indexOf('>>>'), 0);
-  });
+  return styleTest(p.chevron, '>>>');
 });
 
 //: Test Bullet Method
 describe('bullet()', function() {
-  it('Return boolean', function() {
-    return p.bullet('Test').should.be.a('boolean');
-  });
-  it('Return string', function() {
-    return p.bullet('Test', {
-      ret: true
-    }).should.be.a('string');
-  });
-  it('Proper length', function() {
-    return p.bullet('Test', {
-      ret: true
-    }).length.should.equal(COLS);
-  });
-  it('Proper length with args', function() {
-    return p.bullet('Test', {
-      ret: true,
-      indent: 2
-    }).length.should.equal(COLS);
-  });
-  it('Proper length without log', function() {
-    return p.bullet('Test', {
-      ret: true,
-      log: false,
-      indent: 2
-    }).length.should.equal('•         Test'.length);
-  });
-  return it('Contains preset characters', function() {
-    return assert.equal(p.bullet('Test', {
-      ret: true
-    }).indexOf('•'), 0);
-  });
+  return styleTest(p.bullet, '•');
 });
 
 //: Test Log Method
@@ -272,15 +131,15 @@ describe('log()', function() {
     }).should.be.a('string');
   });
   it('Proper length', function() {
-    return p.log('Test', {
+    return escRepl(p.log('Test', {
       ret: true
-    }).length.should.equal(COLS);
+    })).length.should.equal(COLS);
   });
   it('Proper length with emoji', function() {
-    return p.log('Test', {
+    return escRepl(p.log('Test', {
       ret: true,
       emoji: 'smile'
-    }).length.should.equal(COLS);
+    })).length.should.equal(COLS);
   });
   return it('Contains text', function() {
     return assert.equal(p.log('Test', {

@@ -96,8 +96,8 @@ Print = {
     }
     emote = getEmote(args.emoji);
     cols = process.stdout.columns;
-    time = dateFormat(new Date(), 'HH:MM:ss');
-    space = ' '.repeat(cols - text.replace(/\u001b\[.*?m/g, '').length - emote.length - time.length - 1 - args.offset);
+    time = chalk.gray(dateFormat(new Date(), 'HH:MM:ss'));
+    space = ' '.repeat(cols - text.replace(/\u001b\[.*?m/g, '').length - emote.length - time.replace(/\u001b\[.*?m/g, '').length - 1 - args.offset);
     output = `${text}${space}${emote} ${time}`;
     return logOrReturn(output, args.ret);
   },

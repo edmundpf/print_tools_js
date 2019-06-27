@@ -1,6 +1,6 @@
 {
 	"name": "print-tools-js",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "Package: print_tools_js",
 	"main": "./js/index.js",
 	"files": [

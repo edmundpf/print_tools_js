@@ -79,11 +79,10 @@ p.success('Test passed!')
 		* *args* (Object) - additional **optional** arguments
 			* *theme* (string = 'main') - box/title color theme, includes ['main', 'success', 'info', 'warning', 'danger']
 				* *main* defaults to cyan color
-			* *themeDesc* (string) - Description printed next to title
+			* *titleDesc* (string) - Description printed next to title
 			* *tagLine* (string) - Tag line printed below title line in grey
 			* *author* (string) - Author name
 			* *email* (string) - Author email
 			* *ret* (Boolean = false) - if true returns formatted string, returns true after printing otherwise
 		
-	
-				
+		
