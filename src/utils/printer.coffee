@@ -63,7 +63,7 @@ Print =
 
 	#: Title Box
 
-	titleBox: (title, args={ theme: 'main', themeDesc: null, tagLine: null, author: null, email: null, ret: false }) ->
+	titleBox: (title, args={ theme: 'main', titleDesc: null, tagLine: null, author: null, email: null, ret: false }) ->
 		themeAliases =
 			main: 'cyan'
 			success: 'green'

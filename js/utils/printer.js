@@ -104,7 +104,7 @@ Print = {
   //: Title Box
   titleBox: function(title, args = {
       theme: 'main',
-      themeDesc: null,
+      titleDesc: null,
       tagLine: null,
       author: null,
       email: null,
