@@ -28,6 +28,11 @@ presetTest = function(func, presetChar, offset = 0) {
       ret: true
     })).length.should.equal(COLS - offset);
   });
+  it('Proper length - multiline string', function() {
+    return (escRepl(func.bind(p)('Test '.repeat(100), {
+      ret: true
+    })).length % COLS).should.equal(0);
+  });
   it('Proper length with args', function() {
     return escRepl(func.bind(p)('Test', {
       ret: true,
@@ -64,6 +69,11 @@ styleTest = function(func, styleChar) {
     return escRepl(func.bind(p)('Test', {
       ret: true
     })).length.should.equal(COLS);
+  });
+  it('Proper length - multiline string', function() {
+    return (escRepl(func.bind(p)('Test '.repeat(100), {
+      ret: true
+    })).length % COLS).should.equal(0);
   });
   it('Proper length with args', function() {
     return escRepl(func.bind(p)('Test', {
@@ -134,6 +144,11 @@ describe('log()', function() {
     return escRepl(p.log('Test', {
       ret: true
     })).length.should.equal(COLS);
+  });
+  it('Proper length - multiline string', function() {
+    return (escRepl(p.log('Test '.repeat(100), {
+      ret: true
+    })).length % COLS).should.equal(0);
   });
   it('Proper length with emoji', function() {
     return escRepl(p.log('Test', {

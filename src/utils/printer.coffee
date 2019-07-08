@@ -56,7 +56,10 @@ Print =
 		emote = getEmote(args.emoji)
 		cols = process.stdout.columns
 		time = chalk.gray(dateFormat(new Date(), 'HH:MM:ss'))
-		space = ' '.repeat(cols - text.replace(/\u001b\[.*?m/g, '').length - emote.length -
+		if (cols - text.replace(/\u001b\[.*?m/g, '').length - emote.length -
+			time.replace(/\u001b\[.*?m/g, '').length - 1 - args.offset) < 0 && args.offset > 0
+				args.offset -= 1
+		space = ' '.repeat(cols - (text.replace(/\u001b\[.*?m/g, '').length % cols) - emote.length -
 			time.replace(/\u001b\[.*?m/g, '').length - 1 - args.offset)
 		output = "#{text}#{space}#{emote} #{time}"
 		return logOrReturn(output, args.ret)
@@ -150,7 +153,9 @@ printPreset = (obj, text, presetText, emojiText, defaultOffset, args) ->
 	else
 		emote = getEmote(emojiText, args.emoji)
 		cols = process.stdout.columns
-		space = ' '.repeat(cols - output.replace(/\u001b\[.*?m/g, '').length - emote.length - args.offset)
+		if (cols - output.replace(/\u001b\[.*?m/g, '').length - emote.length - args.offset) < 0 && args.offset > 0
+			args.offset -= 1
+		space = ' '.repeat(cols - (output.replace(/\u001b\[.*?m/g, '').length % cols) - emote.length - args.offset)
 		output = "#{output}#{space}#{emote}"
 		return logOrReturn(output, args.ret)
 

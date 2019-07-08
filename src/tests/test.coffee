@@ -17,6 +17,8 @@ presetTest = (func, presetChar, offset=0) ->
 		func.bind(p)('Test', { ret: true }).should.be.a('string')
 	it 'Proper length', ->
 		escRepl(func.bind(p)('Test', { ret: true })).length.should.equal(COLS - offset)
+	it 'Proper length - multiline string', ->
+		(escRepl(func.bind(p)('Test '.repeat(100), { ret: true })).length % COLS).should.equal(0)
 	it 'Proper length with args', ->
 		escRepl(func.bind(p)('Test', { ret: true, dec: 'arrow', indent: 2 })).length.should.equal(COLS - offset)
 	it 'Proper length without log', ->
@@ -33,6 +35,8 @@ styleTest = (func, styleChar) ->
 		func.bind(p)('Test', { ret: true }).should.be.a('string')
 	it 'Proper length', ->
 		escRepl(func.bind(p)('Test', { ret: true })).length.should.equal(COLS)
+	it 'Proper length - multiline string', ->
+		(escRepl(func.bind(p)('Test '.repeat(100), { ret: true })).length % COLS).should.equal(0)
 	it 'Proper length with args', ->
 		escRepl(func.bind(p)('Test', { ret: true, indent: 2 })).length.should.equal(COLS)
 	it 'Proper length without log', ->
@@ -84,6 +88,8 @@ describe 'log()', ->
 		p.log('Test', { ret: true }).should.be.a('string')
 	it 'Proper length', ->
 		escRepl(p.log('Test', { ret: true })).length.should.equal(COLS)
+	it 'Proper length - multiline string', ->
+		(escRepl(p.log('Test '.repeat(100), { ret: true })).length % COLS).should.equal(0)
 	it 'Proper length with emoji', ->
 		escRepl(p.log('Test', { ret: true, emoji: 'smile' })).length.should.equal(COLS)
 	it 'Contains text', ->
