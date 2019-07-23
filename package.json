@@ -1,7 +1,7 @@
 {
 	"name": "print-tools-js",
-	"version": "1.0.8",
-	"description": "Package: print_tools_js",
+	"version": "1.0.9",
+	"description": "Easy-to-use console logging presets and formatting",
 	"main": "./js/index.js",
 	"files": [
 		"/js"
