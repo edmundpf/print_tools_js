@@ -56,11 +56,23 @@ Print =
 		emote = getEmote(args.emoji)
 		cols = process.stdout.columns
 		time = chalk.gray(dateFormat(new Date(), 'HH:MM:ss'))
-		if (cols - text.replace(/\u001b\[.*?m/g, '').length - emote.length -
-			time.replace(/\u001b\[.*?m/g, '').length - 1 - args.offset) < 0 && args.offset > 0
-				args.offset -= 1
-		space = ' '.repeat(cols - (text.replace(/\u001b\[.*?m/g, '').length % cols) - emote.length -
-			time.replace(/\u001b\[.*?m/g, '').length - 1 - args.offset)
+
+		textLen = text.replace(/\u001b\[.*?m/g, '').length
+		textLenMod = textLen % cols
+		extLen = emote.length + time.replace(/\u001b\[.*?m/g, '').length + 1 + args.offset
+		offsetLen = cols - textLen - extLen
+
+		if offsetLen < 0 && args.offset > 0
+			extLen -= 1
+
+		if (cols - textLenMod - extLen) > 0
+				space = ' '.repeat(cols - textLenMod - extLen)
+		else
+			if offsetLen == 0
+				space = ' '.repeat(cols + (cols - textLenMod - extLen) + 1)
+			else
+				space = ' '.repeat(cols + (cols - textLenMod - extLen))
+
 		output = "#{text}#{space}#{emote} #{time}"
 		return logOrReturn(output, args.ret)
 
@@ -153,9 +165,23 @@ printPreset = (obj, text, presetText, emojiText, defaultOffset, args) ->
 	else
 		emote = getEmote(emojiText, args.emoji)
 		cols = process.stdout.columns
-		if (cols - output.replace(/\u001b\[.*?m/g, '').length - emote.length - args.offset) < 0 && args.offset > 0
-			args.offset -= 1
-		space = ' '.repeat(cols - (output.replace(/\u001b\[.*?m/g, '').length % cols) - emote.length - args.offset)
+
+		textLen = output.replace(/\u001b\[.*?m/g, '').length
+		textLenMod = textLen % cols
+		extLen = emote.length + args.offset
+		offsetLen = cols - textLen - extLen
+
+		if offsetLen < 0 && args.offset > 0
+			extLen -= 1
+
+		if (cols - textLenMod - extLen) > 0
+				space = ' '.repeat(cols - textLenMod - extLen)
+		else
+			if offsetLen == 0
+				space = ' '.repeat(cols + (cols - textLenMod - extLen) + 1)
+			else
+				space = ' '.repeat(cols + (cols - textLenMod - extLen))
+
 		output = "#{output}#{space}#{emote}"
 		return logOrReturn(output, args.ret)
 

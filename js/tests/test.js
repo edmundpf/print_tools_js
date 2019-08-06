@@ -33,6 +33,11 @@ presetTest = function(func, presetChar, offset = 0) {
       ret: true
     })).length % COLS).should.equal(0);
   });
+  it('Proper length - timestamp overlap', function() {
+    return (escRepl(func.bind(p)('*'.repeat(process.stdout.columns - 3), {
+      ret: true
+    })).length % COLS).should.equal(0);
+  });
   it('Proper length with args', function() {
     return escRepl(func.bind(p)('Test', {
       ret: true,
@@ -47,6 +52,14 @@ presetTest = function(func, presetChar, offset = 0) {
       dec: 'arrow',
       indent: 2
     })).length.should.equal(COLS - offset);
+  });
+  it('Proper length without log - timestamp overlap', function() {
+    return (escRepl(func.bind(p)('*'.repeat(process.stdout.columns - 3), {
+      ret: true,
+      log: false,
+      dec: 'arrow',
+      indent: 2
+    })).length % COLS).should.equal(0);
   });
   return it('Contains preset characters', function() {
     return assert.equal(func.bind(p)('Test', {
@@ -75,6 +88,11 @@ styleTest = function(func, styleChar) {
       ret: true
     })).length % COLS).should.equal(0);
   });
+  it('Proper length - timestamp overlap', function() {
+    return (escRepl(func.bind(p)('*'.repeat(process.stdout.columns - 3), {
+      ret: true
+    })).length % COLS).should.equal(0);
+  });
   it('Proper length with args', function() {
     return escRepl(func.bind(p)('Test', {
       ret: true,
@@ -87,6 +105,13 @@ styleTest = function(func, styleChar) {
       log: false,
       indent: 2
     })).length.should.equal(`${styleChar}         Test`.length);
+  });
+  it('Proper length without log - timestamp overlap', function() {
+    return escRepl(func.bind(p)('*'.repeat(process.stdout.columns * 2 - 3), {
+      ret: true,
+      log: false,
+      indent: 2
+    })).length.should.equal(`${styleChar}         ${'*'.repeat(process.stdout.columns * 2 - 3)}`.length);
   });
   return it('Contains preset characters', function() {
     return assert.equal(func.bind(p)('Test', {
@@ -147,6 +172,11 @@ describe('log()', function() {
   });
   it('Proper length - multiline string', function() {
     return (escRepl(p.log('Test '.repeat(100), {
+      ret: true
+    })).length % COLS).should.equal(0);
+  });
+  it('Proper length - timestamp overlap', function() {
+    return (escRepl(p.log('*'.repeat(process.stdout.columns - 3), {
       ret: true
     })).length % COLS).should.equal(0);
   });

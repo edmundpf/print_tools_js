@@ -19,10 +19,15 @@ presetTest = (func, presetChar, offset=0) ->
 		escRepl(func.bind(p)('Test', { ret: true })).length.should.equal(COLS - offset)
 	it 'Proper length - multiline string', ->
 		(escRepl(func.bind(p)('Test '.repeat(100), { ret: true })).length % COLS).should.equal(0)
+	it 'Proper length - timestamp overlap', ->
+		(escRepl(func.bind(p)('*'.repeat(process.stdout.columns - 3), { ret: true })).length % COLS).should.equal(0)
 	it 'Proper length with args', ->
 		escRepl(func.bind(p)('Test', { ret: true, dec: 'arrow', indent: 2 })).length.should.equal(COLS - offset)
 	it 'Proper length without log', ->
 		escRepl(func.bind(p)('Test', { ret:true, log: false, dec: 'arrow', indent: 2 })).length.should.equal(COLS - offset)
+	it 'Proper length without log - timestamp overlap', ->
+		(escRepl(func.bind(p)('*'.repeat(process.stdout.columns - 3),
+			{ ret:true, log: false, dec: 'arrow', indent: 2 })).length % COLS).should.equal(0)
 	it 'Contains preset characters', ->
 		assert.equal(func.bind(p)('Test', { ret: true }).indexOf(presetChar), 0)
 
@@ -37,10 +42,15 @@ styleTest = (func, styleChar) ->
 		escRepl(func.bind(p)('Test', { ret: true })).length.should.equal(COLS)
 	it 'Proper length - multiline string', ->
 		(escRepl(func.bind(p)('Test '.repeat(100), { ret: true })).length % COLS).should.equal(0)
+	it 'Proper length - timestamp overlap', ->
+		(escRepl(func.bind(p)('*'.repeat(process.stdout.columns - 3), { ret: true })).length % COLS).should.equal(0)
 	it 'Proper length with args', ->
 		escRepl(func.bind(p)('Test', { ret: true, indent: 2 })).length.should.equal(COLS)
 	it 'Proper length without log', ->
 		escRepl(func.bind(p)('Test', { ret:true, log: false, indent: 2 })).length.should.equal("#{styleChar}         Test".length)
+	it 'Proper length without log - timestamp overlap', ->
+		escRepl(func.bind(p)('*'.repeat(process.stdout.columns * 2 - 3),
+			{ ret:true, log: false, indent: 2 })).length.should.equal("#{styleChar}         #{'*'.repeat(process.stdout.columns * 2 - 3)}".length)
 	it 'Contains preset characters', ->
 		assert.equal(func.bind(p)('Test', { ret: true }).indexOf(styleChar), 0)
 
@@ -90,6 +100,8 @@ describe 'log()', ->
 		escRepl(p.log('Test', { ret: true })).length.should.equal(COLS)
 	it 'Proper length - multiline string', ->
 		(escRepl(p.log('Test '.repeat(100), { ret: true })).length % COLS).should.equal(0)
+	it 'Proper length - timestamp overlap', ->
+		(escRepl(p.log('*'.repeat(process.stdout.columns - 3), { ret: true })).length % COLS).should.equal(0)
 	it 'Proper length with emoji', ->
 		escRepl(p.log('Test', { ret: true, emoji: 'smile' })).length.should.equal(COLS)
 	it 'Contains text', ->

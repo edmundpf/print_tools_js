@@ -84,7 +84,7 @@ Print = {
       emoji: false,
       offset: 0
     }) {
-    var cols, emote, output, space, time;
+    var cols, emote, extLen, offsetLen, output, space, textLen, textLenMod, time;
     if (args.ret == null) {
       args.ret = false;
     }
@@ -97,10 +97,22 @@ Print = {
     emote = getEmote(args.emoji);
     cols = process.stdout.columns;
     time = chalk.gray(dateFormat(new Date(), 'HH:MM:ss'));
-    if ((cols - text.replace(/\u001b\[.*?m/g, '').length - emote.length - time.replace(/\u001b\[.*?m/g, '').length - 1 - args.offset) < 0 && args.offset > 0) {
-      args.offset -= 1;
+    textLen = text.replace(/\u001b\[.*?m/g, '').length;
+    textLenMod = textLen % cols;
+    extLen = emote.length + time.replace(/\u001b\[.*?m/g, '').length + 1 + args.offset;
+    offsetLen = cols - textLen - extLen;
+    if (offsetLen < 0 && args.offset > 0) {
+      extLen -= 1;
     }
-    space = ' '.repeat(cols - (text.replace(/\u001b\[.*?m/g, '').length % cols) - emote.length - time.replace(/\u001b\[.*?m/g, '').length - 1 - args.offset);
+    if ((cols - textLenMod - extLen) > 0) {
+      space = ' '.repeat(cols - textLenMod - extLen);
+    } else {
+      if (offsetLen === 0) {
+        space = ' '.repeat(cols + (cols - textLenMod - extLen) + 1);
+      } else {
+        space = ' '.repeat(cols + (cols - textLenMod - extLen));
+      }
+    }
     output = `${text}${space}${emote} ${time}`;
     return logOrReturn(output, args.ret);
   },
@@ -177,7 +189,7 @@ printDecoration = function(obj, text, decText, args) {
 
 //: Print Preset
 printPreset = function(obj, text, presetText, emojiText, defaultOffset, args) {
-  var cols, emote, output, space, styleMethods;
+  var cols, emote, extLen, offsetLen, output, space, styleMethods, textLen, textLenMod;
   args = presetArgs(args, defaultOffset);
   output = `${presetText} ${text}`;
   styleMethods = {
@@ -207,10 +219,22 @@ printPreset = function(obj, text, presetText, emojiText, defaultOffset, args) {
   } else {
     emote = getEmote(emojiText, args.emoji);
     cols = process.stdout.columns;
-    if ((cols - output.replace(/\u001b\[.*?m/g, '').length - emote.length - args.offset) < 0 && args.offset > 0) {
-      args.offset -= 1;
+    textLen = output.replace(/\u001b\[.*?m/g, '').length;
+    textLenMod = textLen % cols;
+    extLen = emote.length + args.offset;
+    offsetLen = cols - textLen - extLen;
+    if (offsetLen < 0 && args.offset > 0) {
+      extLen -= 1;
     }
-    space = ' '.repeat(cols - (output.replace(/\u001b\[.*?m/g, '').length % cols) - emote.length - args.offset);
+    if ((cols - textLenMod - extLen) > 0) {
+      space = ' '.repeat(cols - textLenMod - extLen);
+    } else {
+      if (offsetLen === 0) {
+        space = ' '.repeat(cols + (cols - textLenMod - extLen) + 1);
+      } else {
+        space = ' '.repeat(cols + (cols - textLenMod - extLen));
+      }
+    }
     output = `${output}${space}${emote}`;
     return logOrReturn(output, args.ret);
   }
