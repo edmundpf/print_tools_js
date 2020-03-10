@@ -9,7 +9,7 @@ Print =
 
 	#: Success method
 
-	success: (text, args={ dec: 'none', indent: 0, offset: 1, log: true, emoji: true, ret: false }) ->
+	success: (text, args={ dec: 'none', indent: 0, offset: 0, log: true, emoji: true, ret: false }) ->
 		return printPreset(this, text, '✔', 'blush', 1, args)
 
 	#: Info method
@@ -19,7 +19,7 @@ Print =
 
 	#: Warning method
 
-	warning: (text, args={ dec: 'none', indent: 0, offset: 1, log: true, emoji: true, ret: false }) ->
+	warning: (text, args={ dec: 'none', indent: 0, offset: 0, log: true, emoji: true, ret: false }) ->
 		return printPreset(this, text, "⚠ #{chalk.bgYellow(' Warning ')}", 'sweat', 1, args)
 
 	#: Error method

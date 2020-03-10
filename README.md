@@ -27,10 +27,7 @@ p.success('Test passed!')
 		* *args* (Object) - additional **optional** arguments
 			* *dec* (string = 'none') - preceding text decorator, includes ['arrow', 'chevron', 'bullet']
 			* *indent* (Number = 0) - number of indentation preceding text
-			* *offset* (Number = 0 || 1) - characters to offset time log at end of line, useful for printing irregular unicode characters
-				* success(), warning(): offset = 1
-				* info(), error(): offset = 1
-					* This ensures the log times all line up horizontally due to different unicode characters in the presets
+			* *offset* (Number = 0) - characters to offset time log at end of line, useful for printing irregular unicode characters
 			* *log* (Boolean = true) - if true includes log string at end of line
 			* *emoji* (Boolean = true) - if true includes respective emoji at end of line
 			* *ret* (Boolean = false) - if true returns formatted string, returns true after printing otherwise

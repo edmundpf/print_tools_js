@@ -14,7 +14,7 @@ Print = {
   success: function(text, args = {
       dec: 'none',
       indent: 0,
-      offset: 1,
+      offset: 0,
       log: true,
       emoji: true,
       ret: false
@@ -36,7 +36,7 @@ Print = {
   warning: function(text, args = {
       dec: 'none',
       indent: 0,
-      offset: 1,
+      offset: 0,
       log: true,
       emoji: true,
       ret: false
